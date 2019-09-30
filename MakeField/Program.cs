@@ -24,7 +24,6 @@ namespace MakeField
             double yHeight = 500;
             double cnt = xWidth * yHeight;
 
-            List<double> theField = new List<double>();
             using (var img = new Bitmap((int)xWidth, (int)yHeight))
             {
                 for (double row = 0; row < xWidth; row++)
@@ -32,20 +31,17 @@ namespace MakeField
                     for (double col = 0; col < yHeight; col++)
                     {
                         double speed = Program
-                            .ComputeMaxWindSpeed(col * dotPitch, row * dotPitch);
-                        // theField.Add(speed);
+                            .ComputeMaxWindSpeed(col * dotPitch, (row - yHeight / 2) * dotPitch);
                         double colrVal = (speed - Program.baseWindSpeed);
                         colrVal /= valRange; colrVal *= -255.0; colrVal += 255;
-                        //System.Console.WriteLine(colrVal);
                         var color = Color.FromArgb(255, 255, (int) colrVal);
                         img.SetPixel((int) col, (int) row, color);
                     }
                 }
-                //double maxVal = theField.Max(); double minVal = theField.Min();
-                var value = img.GetPixel(55, 299);
+
                 string outFileName =
                     @"C:\Directory\";
-                outFileName = "Image.png";
+                outFileName = "Wind Field Map.png";
 
                 img.Save(outFileName, System.Drawing.Imaging.ImageFormat.Png);
             }
